@@ -4,13 +4,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using RomanProject.Model;
+using RomanProject.Tools.Exceptions;
 
 namespace RomanProject.ViewModel
 {
-    class PersonInfoViewModel:BaseViewModel
+    class PersonInfoViewModel : BaseViewModel
     {
         #region constants
-        private static readonly int MlsecondsToWait = 2000;
+        private static readonly int MlsecondsToWait = 1000;
         #endregion
 
         #region fields
@@ -18,10 +19,6 @@ namespace RomanProject.ViewModel
         private string _surname;
         private string _eMail;
         private DateTime _birthdayDate = DateTime.Today;
-        private bool _isAdult;
-        private string _sunSign;
-        private string _chineaseSign;
-        private bool _isBirthday;
         private string _generalInfo;
         #region Commands
         private RelayCommand<object> _checkDate;
@@ -32,7 +29,7 @@ namespace RomanProject.ViewModel
         public string Name
         {
             get { return _name; }
-            private set
+            set
             {
                 _name = value;
                 OnPropertyChanged();
@@ -52,7 +49,7 @@ namespace RomanProject.ViewModel
         public string EMail
         {
             get { return _eMail; }
-            private set
+            set
             {
                 _eMail = value;
                 OnPropertyChanged();
@@ -62,60 +59,18 @@ namespace RomanProject.ViewModel
         public DateTime BirthdayDate
         {
             get { return _birthdayDate; }
-            private set
+            set
             {
                 _birthdayDate = value;
                 OnPropertyChanged();
             }
         }
 
-        public bool IsAdult
-        {
-            get { return _isAdult; }
-            private set
-            {
-                _isAdult = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string SunSign
-        {
-            get
-            {
-               return _sunSign;
-            }
-           private set
-            {
-                _sunSign = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string ChineaseSign
-        {
-            get { return _chineaseSign; }
-            private set
-            {
-                _chineaseSign = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool IsBirthday
-        {
-            get { return _isBirthday; }
-            private set
-            {
-                _isBirthday = value;
-                OnPropertyChanged();
-            }
-        }
 
         public string GeneralInfo
         {
             get { return _generalInfo; }
-            private set
+            set
             {
                 _generalInfo = value;
                 OnPropertyChanged();
@@ -142,35 +97,40 @@ namespace RomanProject.ViewModel
 
         private async void ProceedClick(Object obj)
         {
-           LoaderManager.Instance.ShowLoader();
-           Person person = null;
-           bool res = await Task.Run(() =>
+            LoaderManager.Instance.ShowLoader();
+            Person person = null;
+            bool res = await Task.Run(() =>
             {
                 Thread.Sleep(MlsecondsToWait);
-                if (!IsDateCorrect(_birthdayDate))
-                {
-                    MessageBox.Show($"Incorrect date: {_birthdayDate.ToShortDateString()}");
-                    return false;
-                }
-                person = new Person(_name, _surname, _eMail, _birthdayDate);
-                return true;
+                person = TryToCreatePerson(_name, _surname, _eMail, _birthdayDate);
+                return person != null;
             });
-           if (res)
-           {
-               ParseToFieds(person);
-               CheckIfShowBirthdayMessage(person);
-           }
-           LoaderManager.Instance.HideLoader();
+            if (res)
+            {
+                ParseToFields(person);
+                CheckIfShowBirthdayMessage(person);
+            }
+            LoaderManager.Instance.HideLoader();
         }
 
- 
-
-        private bool IsDateCorrect(DateTime date)
+        private Person TryToCreatePerson(string name, string surname, string eMail, DateTime birthdayDate)
         {
-            return date.CompareTo(DateTime.Today) <= 0 && DateTime.Today.Year - date.Year < 135;
+            Person person = null;
+            try
+            {
+                person = new Person(name, surname, eMail, birthdayDate);
+            }
+            catch (PersonPropertyException e)
+            {
+                MessageBox.Show(e.Message);
+                Console.WriteLine(e);
+            }
+            return person;
         }
 
-        private void ParseToFieds(Person person)
+
+
+        private void ParseToFields(Person person)
         {
             GeneralInfo = person.ToString();
         }

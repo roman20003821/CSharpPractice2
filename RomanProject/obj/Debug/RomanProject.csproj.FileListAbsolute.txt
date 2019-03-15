@@ -1,0 +1,16 @@
+C:\Users\Valeriia\Documents\Visual Studio 2015\Projects\CSharpProject3\CSharpPractice2\RomanProject\bin\Debug\RomanProject.exe.config
+C:\Users\Valeriia\Documents\Visual Studio 2015\Projects\CSharpProject3\CSharpPractice2\RomanProject\bin\Debug\RomanProject.exe
+C:\Users\Valeriia\Documents\Visual Studio 2015\Projects\CSharpProject3\CSharpPractice2\RomanProject\bin\Debug\RomanProject.pdb
+C:\Users\Valeriia\Documents\Visual Studio 2015\Projects\CSharpProject3\CSharpPractice2\RomanProject\obj\Debug\MainWindow.g.cs
+C:\Users\Valeriia\Documents\Visual Studio 2015\Projects\CSharpProject3\CSharpPractice2\RomanProject\obj\Debug\View\PersonInfoInputControl.g.cs
+C:\Users\Valeriia\Documents\Visual Studio 2015\Projects\CSharpProject3\CSharpPractice2\RomanProject\obj\Debug\App.g.cs
+C:\Users\Valeriia\Documents\Visual Studio 2015\Projects\CSharpProject3\CSharpPractice2\RomanProject\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\Valeriia\Documents\Visual Studio 2015\Projects\CSharpProject3\CSharpPractice2\RomanProject\obj\Debug\RomanProject_MarkupCompile.cache
+C:\Users\Valeriia\Documents\Visual Studio 2015\Projects\CSharpProject3\CSharpPractice2\RomanProject\obj\Debug\RomanProject_MarkupCompile.lref
+C:\Users\Valeriia\Documents\Visual Studio 2015\Projects\CSharpProject3\CSharpPractice2\RomanProject\obj\Debug\MainWindow.baml
+C:\Users\Valeriia\Documents\Visual Studio 2015\Projects\CSharpProject3\CSharpPractice2\RomanProject\obj\Debug\View\PersonInfoInputControl.baml
+C:\Users\Valeriia\Documents\Visual Studio 2015\Projects\CSharpProject3\CSharpPractice2\RomanProject\obj\Debug\RomanProject.g.resources
+C:\Users\Valeriia\Documents\Visual Studio 2015\Projects\CSharpProject3\CSharpPractice2\RomanProject\obj\Debug\RomanProject.Properties.Resources.resources
+C:\Users\Valeriia\Documents\Visual Studio 2015\Projects\CSharpProject3\CSharpPractice2\RomanProject\obj\Debug\RomanProject.csproj.GenerateResource.Cache
+C:\Users\Valeriia\Documents\Visual Studio 2015\Projects\CSharpProject3\CSharpPractice2\RomanProject\obj\Debug\RomanProject.exe
+C:\Users\Valeriia\Documents\Visual Studio 2015\Projects\CSharpProject3\CSharpPractice2\RomanProject\obj\Debug\RomanProject.pdb

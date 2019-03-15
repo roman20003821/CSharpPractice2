@@ -1,11 +1,15 @@
-﻿using System;
+﻿using RomanProject.Tools;
+using System;
+using System.Linq;
+using RomanProject.Tools.Exceptions;
 
 namespace RomanProject.Model
 {
-   internal class Person
+    internal class Person
     {
         #region constans
-        static readonly string[] ChineaseSigns= { "Rat", "Ox", "Tiger", "Rabbit", "Dragon", "Snake", "Horse", "Sheep", "Monkey", "Rooster", "Dog", "Pig" };
+        static readonly string[] ChineaseSigns = { "Rat", "Ox", "Tiger", "Rabbit", "Dragon", "Snake", "Horse", "Sheep", "Monkey", "Rooster", "Dog", "Pig" };
+        private static readonly int MaxPersonAge = 135;
         #endregion
 
         #region fields
@@ -16,7 +20,7 @@ namespace RomanProject.Model
         #endregion
 
         #region properties
-       internal string Name
+        private string Name
         {
             get { return _name; }
             set
@@ -25,7 +29,7 @@ namespace RomanProject.Model
             }
         }
 
-        internal string Surname
+        private string Surname
         {
             get { return _surname; }
             set
@@ -34,7 +38,7 @@ namespace RomanProject.Model
             }
         }
 
-        internal string EMail
+        private string EMail
         {
             get { return _eMail; }
             set
@@ -43,7 +47,7 @@ namespace RomanProject.Model
             }
         }
 
-        internal DateTime BirthdayDate
+        private DateTime BirthdayDate
         {
             get { return _birthdayDate; }
             set
@@ -52,17 +56,17 @@ namespace RomanProject.Model
             }
         }
 
-        internal bool IsAdult
+        private bool IsAdult
         {
             get { return IsOlderThan(18); }
         }
 
-        internal string SunSign
+        private string SunSign
         {
             get { return GetSunSign(); }
         }
 
-        internal string ChineaseSign
+        private string ChineaseSign
         {
             get { return GetChineaseSign(); }
         }
@@ -76,35 +80,76 @@ namespace RomanProject.Model
 
         internal Person(string name, string surname, string eMail, DateTime birthdayDate)
         {
-            _name = name;
-            _surname = surname;
-            _eMail = eMail;
-            _birthdayDate = birthdayDate;
+            ConstructAndValidate(name, surname, eMail, birthdayDate);
         }
 
         internal Person(string name, string surname, string eMail)
         {
-            _name = name;
-            _surname = surname;
-            _eMail = eMail;
+            ConstructAndValidate(name, surname, eMail, default(DateTime));
         }
 
         internal Person(string name, string surname, DateTime birthdayDate)
         {
+            ConstructAndValidate(name, surname, default(string), birthdayDate);
+        }
+
+        private void ConstructAndValidate(string name, string surname, string eMail, DateTime birthdayDate)
+        {
             _name = name;
             _surname = surname;
+            _eMail = eMail;
             _birthdayDate = birthdayDate;
+            CheckName(name);
+            CheckName(surname);
+            ValidateEmail(eMail);
+            CheckBirthdayDate(birthdayDate);
+        }
+
+        private void ValidateEmail(string eMail)
+        {
+            if (eMail == default(string))
+            {
+                return;
+            }
+            if (!RegexUtilities.IsValidEmail(eMail))
+            {
+                throw new WrongEmailException($"Email is incorrect: {eMail}");
+            }
+        }
+
+        private void CheckBirthdayDate(DateTime birthdayDate)
+        {
+            if (birthdayDate == default(DateTime))
+            {
+                return;
+            }
+            if (IsOlderThan(MaxPersonAge))
+            {
+                throw new OldBirthdayException($"Person is too old, birthday date: {birthdayDate.ToShortDateString()}");
+            }
+            else if (!IsOlderThan(0))
+            {
+                throw new LateBirthdayException($"Person haven't born yet, birthday date: {birthdayDate.ToShortDateString()}");
+            }
+        }
+
+        private void CheckName(string name)
+        {
+            if (!name.All(char.IsLetter))
+            {
+                throw new WrongNameException($"This name is bad {name}");
+            }
         }
 
         private bool IsOlderThan(int age)
         {
-            if (DateTime.Today.Year - _birthdayDate.Year < age) return false;
-            else if (DateTime.Today.Year - _birthdayDate.Year == age)
+            if (DateTime.Today.Year - BirthdayDate.Year < age) return false;
+            else if (DateTime.Today.Year - BirthdayDate.Year == age)
             {
-                if (DateTime.Today.Month < _birthdayDate.Month) return false;
-                else if (DateTime.Today.Month == _birthdayDate.Month)
+                if (DateTime.Today.Month < BirthdayDate.Month) return false;
+                else if (DateTime.Today.Month == BirthdayDate.Month)
                 {
-                    if (DateTime.Today.Day < _birthdayDate.Day) return false;
+                    if (DateTime.Today.Day < BirthdayDate.Day) return false;
                 }
 
             }
@@ -113,41 +158,41 @@ namespace RomanProject.Model
 
         private string GetSunSign()
         {
-            return GetSunSign(_birthdayDate.Month, _birthdayDate.Day);
+            return GetSunSign(BirthdayDate.Day, BirthdayDate.Month, BirthdayDate.Year);
         }
 
 
-        private string GetSunSign(int month, int day)
+        private string GetSunSign(int day, int month, int year)
         {
             if (((month == 3) && (day >= 21)) || ((month == 4) && (day <= 20)))
             {
                 return "Aires";
             }
-            else if (((month == 4) && (day >= 21)) || ((month == 5) && ( day <= 21)))
+            else if (((month == 4) && (day >= 21)) || ((month == 5) && (day <= 21)))
             {
                 return "Taurus";
             }
-            else if (((month == 5) && (day >= 21 )) || ((month == 6) && ( day <= 21)))
+            else if (((month == 5) && (day >= 21)) || ((month == 6) && (day <= 21)))
             {
                 return "Gemini";
             }
-            else if (((month == 6) && (day >= 22 )) || ((month == 7) && ( day <= 22)))
+            else if (((month == 6) && (day >= 22)) || ((month == 7) && (day <= 22)))
             {
                 return "Cancer";
             }
-            else if (((month == 7) && (day >= 23 ) )|| ((month == 8) && ( day <= 22)))
+            else if (((month == 7) && (day >= 23)) || ((month == 8) && (day <= 22)))
             {
                 return "Leo";
             }
-            else if (((month == 8) && (day >= 23 )) || ((month == 9) && (day <= 21)))
+            else if (((month == 8) && (day >= 23)) || ((month == 9) && (day <= 21)))
             {
                 return "Virgo";
             }
-            else if (((month == 9) && (day >= 23)) || ((month == 10) && ( day <= 21)))
+            else if (((month == 9) && (day >= 23)) || ((month == 10) && (day <= 21)))
             {
                 return "Libra";
             }
-            else if (((month == 10) && (day >= 23 )) || ((month == 11) && (day <= 21)))
+            else if (((month == 10) && (day >= 23)) || ((month == 11) && (day <= 21)))
             {
                 return "Scorpio";
             }
@@ -155,15 +200,15 @@ namespace RomanProject.Model
             {
                 return "Sagittarius";
             }
-            else if (((month == 12) && (day >= 22)) || ((month == 1) && ( day <= 20)))
+            else if (((month == 12) && (day >= 22)) || ((month == 1) && (day <= 20)))
             {
                 return "Capricorn";
             }
-            else if (((month == 1) && (day >= 21)) || ((month == 2) && ( day <= 19)))
+            else if (((month == 1) && (day >= 21)) || ((month == 2) && (day <= 19)))
             {
                 return "Aquarius";
             }
-            else if (((month == 2) && (day >= 20)) || ((month == 3) && ( day <= 20)))
+            else if (((month == 2) && (day >= 20)) || ((month == 3) && (day <= 20)))
             {
                 return "Pisces";
             }
@@ -172,7 +217,7 @@ namespace RomanProject.Model
 
         private string GetChineaseSign()
         {
-            return GetChineaseSign(_birthdayDate.Year);
+            return GetChineaseSign(BirthdayDate.Year);
         }
 
         private string GetChineaseSign(int year)
@@ -182,13 +227,13 @@ namespace RomanProject.Model
 
         private bool IsBirthdayToday()
         {
-            return _birthdayDate.Month == DateTime.Today.Month && _birthdayDate.Day == DateTime.Today.Day;
+            return BirthdayDate.Month == DateTime.Today.Month && BirthdayDate.Day == DateTime.Today.Day;
         }
 
         public override string ToString()
         {
-            return $"Name: {_name}\nSurname: {_surname}\nEmail: {_eMail}\nBirthday: {_birthdayDate.ToShortDateString()}\n" +
+            return $"Name: {Name}\nSurname: {Surname}\nEmail: {EMail}\nBirthday: {BirthdayDate.ToShortDateString()}\n" +
                    $"Is Adult: {IsAdult}\nIs Birthday: {IsBirthday}\nChinease Sign: {ChineaseSign}\nSun Sign: {SunSign}";
-        }  
+        }
     }
 }

@@ -58,6 +58,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\Person.cs" />
+    <Compile Include="Tools\Exceptions\LateBirthdayException.cs" />
+    <Compile Include="Tools\Exceptions\OldBirthdayException.cs" />
+    <Compile Include="Tools\Exceptions\PersonPropertyException.cs" />
+    <Compile Include="Tools\Exceptions\WrongEmailException.cs" />
+    <Compile Include="Tools\Exceptions\WrongNameException.cs" />
+    <Compile Include="Tools\RegexUtilities.cs" />
     <Compile Include="Tools\RelayCommand.cs" />
     <Compile Include="Tools\BaseViewModel.cs" />
     <Compile Include="Tools\ILoaderOwner.cs" />
