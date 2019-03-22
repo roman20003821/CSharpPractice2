@@ -6,10 +6,11 @@
         xmlns:controls="clr-namespace:RomanProject.View"
         xmlns:local="clr-namespace:RomanProject"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        ResizeMode="NoResize"
+        Title="MainWindow" Height="550" Width="700" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Grid IsEnabled="{Binding IsControlEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
-            <controls:PersonInfoInputControl></controls:PersonInfoInputControl>
+        <Grid>
+            <ContentControl Name="_contentControl" IsEnabled="{Binding IsControlEnabled, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"></ContentControl>
         </Grid>
     </Grid>
 </Window>

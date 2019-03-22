@@ -1,0 +1,96 @@
+﻿<UserControl x:Class="RomanProject.View.UsersListControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RomanProject.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="550" d:DesignWidth="700">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <DataGrid  SelectedItem="{Binding Selected, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Grid.Row="0" Grid.ColumnSpan="2" ItemsSource="{Binding Users, Mode=OneWay}" AutoGenerateColumns="False" CanUserSortColumns="False" ScrollViewer.CanContentScroll="True" Height="200" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Surname" Binding="{Binding Surname}"></DataGridTextColumn>
+                <DataGridTextColumn Header="E-mail" Binding="{Binding EMail}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Birthday Date" Binding="{Binding BirthdayDate}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Adult" Binding="{Binding IsAdult}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Sun Sign" Binding="{Binding SunSign}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Chinease Sign" Binding="{Binding ChineaseSign}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Birthday Today" Binding="{Binding IsBirthday}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Grid Row="1" Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+               <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0"  HorizontalAlignment="Left"  Content="Name"/>
+            <TextBox Grid.Row="1" Grid.Column="0" Margin="5,5,5,5" Height="25" Text="{Binding NameFilter, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Label Grid.Row="2" Grid.Column="0"  HorizontalAlignment="Left"  Content="Surname"/>
+            <TextBox Grid.Row="3" Grid.Column="0" Margin="5,5,5,5" Height="25" Text="{Binding SurnameFilter, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Label Grid.Row="4" Grid.Column="0"  HorizontalAlignment="Left"  Content="E-mail"/>
+            <TextBox Grid.Row="5" Grid.Column="0" Margin="5,5,5,5" Height="25" Text="{Binding EMailFilter, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Label Grid.Row="6" Grid.Column="0"  HorizontalAlignment="Left"  Content="Birthday date"/>
+            <DatePicker Grid.Row="7" Grid.Column="0" Margin="5,5,5,5"  SelectedDate="{Binding DateTimeFilter, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <Label Grid.Row="0" Grid.Column="1"  HorizontalAlignment="Left"  Content="Is Adult"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" Height="25" Text="{Binding IsAdultFilter, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Label Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Left"  Content="Sun Sign"/>
+            <TextBox Grid.Row="3" Grid.Column="1" Margin="5,5,5,5" Height="25" Text="{Binding SunSignFilter, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Label Grid.Row="4" Grid.Column="1"  HorizontalAlignment="Left"  Content="Chinease Sign"/>
+            <TextBox Grid.Row="5" Grid.Column="1" Margin="5,5,5,5" Height="25" Text="{Binding ChineaseSignFilter, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Label Grid.Row="6" Grid.Column="1"  HorizontalAlignment="Left"  Content="Birthday today"/>
+            <TextBox Grid.Row="7" Grid.Column="1" Margin="5,5,5,5" Height="25" Text="{Binding IsBirthdayTodayFilter, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Button Grid.ColumnSpan="2" Grid.Row="8" Content="Filter" Margin="5,5,5,5" Command="{Binding FilterCommand}"></Button>
+        </Grid>
+        <Grid Row="1" Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <RadioButton IsChecked="{Binding NameSort, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Grid.Row ="0" Margin="5,30,5,5" Content="By Name"></RadioButton>
+            <RadioButton IsChecked="{Binding SurnameSort ,Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Grid.Row ="1" Margin="5,5,5,5" Content="By Surname"></RadioButton>
+            <RadioButton IsChecked="{Binding EMailSort ,Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Grid.Row ="2" Margin="5,5,5,5" Content="By e-mail"></RadioButton>
+            <RadioButton IsChecked="{Binding BirthdayDateSort ,Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Grid.Row ="3" Margin="5,5,5,5" Content="By birthdaty date"></RadioButton>
+            <RadioButton IsChecked="{Binding IsAdultSort, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row ="0" Margin="5,30,5,5" Content="By Is Adult"></RadioButton>
+            <RadioButton IsChecked="{Binding SunSignSort ,Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row ="1" Margin="5,5,5,5" Content="By Sun Sign"></RadioButton>
+            <RadioButton IsChecked="{Binding ChineaseSignSort ,Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row ="2" Margin="5,5,5,5" Content="By Chinease Sign"></RadioButton>
+            <RadioButton IsChecked="{Binding BirthdayTodaySort ,Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row ="3" Margin="5,5,5,5" Content="By Is Birthday today"></RadioButton>
+            <Button Grid.ColumnSpan="2"  Grid.Row ="4" Margin="5,5,5,5" Content="Sort" Command="{Binding SortCommand}"></Button>
+            <Button Grid.ColumnSpan="2"  Grid.Row ="5" Margin="5,63,5,5" Content="Add" Command="{Binding AddCommand}"></Button>
+            <Button Grid.Row ="6" Grid.Column="0" Margin="5,5,5,5" Content="Edit" Command="{Binding EditCommand}"></Button>
+            <Button Grid.Row ="6" Grid.Column="1" Margin="5,5,5,5" Content="Remove" Command="{Binding RemoveCommand}"></Button>
+        </Grid>
+        <Button Margin="10" Grid.Row="2" Grid.ColumnSpan="2" Content="Reset" Command="{Binding ResetCommand}"></Button>
+    </Grid>
+</UserControl>

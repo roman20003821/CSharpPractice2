@@ -5,14 +5,14 @@ using RomanProject.ViewModel;
 namespace RomanProject.View
 {
     /// <summary>
-    /// Interaction logic for PersonInfoInput.xaml
+    /// Interaction logic for UsersGridControl.xaml
     /// </summary>
-    public partial class PersonInfoInputControl : UserControl,INavigatable
+    public partial class UsersListControl : UserControl,INavigatable
     {
-        public PersonInfoInputControl()
+        public UsersListControl()
         {
             InitializeComponent();
-            DataContext = new PersonInfoViewModel();
+            DataContext = new UsersListViewModel();
         }
     }
 }

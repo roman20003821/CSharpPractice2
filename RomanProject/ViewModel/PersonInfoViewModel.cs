@@ -1,10 +1,13 @@
 ﻿using RomanProject.Tools;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using RomanProject.Model;
 using RomanProject.Tools.Exceptions;
+using RomanProject.Tools.Managers;
+using RomanProject.Tools.Navigation;
 
 namespace RomanProject.ViewModel
 {
@@ -19,16 +22,16 @@ namespace RomanProject.ViewModel
         private string _surname;
         private string _eMail;
         private DateTime _birthdayDate = DateTime.Today;
-        private string _generalInfo;
         #region Commands
-        private RelayCommand<object> _checkDate;
+        private RelayCommand<object> _saveCommand;
+        private RelayCommand<object> _cancelCommand;
         #endregion
         #endregion
 
         #region properties
         public string Name
         {
-            get { return _name; }
+            get { return _name;}
             set
             {
                 _name = value;
@@ -39,6 +42,7 @@ namespace RomanProject.ViewModel
         public string Surname
         {
             get { return _surname; }
+
             set
             {
                 _surname = value;
@@ -58,36 +62,40 @@ namespace RomanProject.ViewModel
 
         public DateTime BirthdayDate
         {
-            get { return _birthdayDate; }
+            get { return _birthdayDate;}
             set
             {
                 _birthdayDate = value;
                 OnPropertyChanged();
             }
         }
-
-
-        public string GeneralInfo
-        {
-            get { return _generalInfo; }
-            set
-            {
-                _generalInfo = value;
-                OnPropertyChanged();
-            }
-        }
-
+        
         #region Commands
-        public RelayCommand<object> CheckDate
+        public RelayCommand<object> SaveCommand
         {
             get
             {
-                return _checkDate ?? (_checkDate = new RelayCommand<object>(
+                return _saveCommand ?? (_saveCommand = new RelayCommand<object>(
                           ProceedClick, CanExecute));
+            }
+        }
+
+        public RelayCommand<object> CancelCommand
+        {
+            get
+            {
+                return _cancelCommand ?? (_cancelCommand = new RelayCommand<object>(
+                           Cancel, o => true));
             }
         }
         #endregion
         #endregion
+
+        internal PersonInfoViewModel()
+        {
+            Person personToEdit = UserListManager.PersonToEdit;
+            ParseToFields(personToEdit);
+        }
 
         private bool CanExecute(Object obj)
         {
@@ -105,12 +113,12 @@ namespace RomanProject.ViewModel
                 person = TryToCreatePerson(_name, _surname, _eMail, _birthdayDate);
                 return person != null;
             });
+            LoaderManager.Instance.HideLoader();
             if (res)
             {
-                ParseToFields(person);
-                CheckIfShowBirthdayMessage(person);
+                Clear();
+                NavigationManager.Instance.Navigate(ViewType.Main);
             }
-            LoaderManager.Instance.HideLoader();
         }
 
         private Person TryToCreatePerson(string name, string surname, string eMail, DateTime birthdayDate)
@@ -119,6 +127,8 @@ namespace RomanProject.ViewModel
             try
             {
                 person = new Person(name, surname, eMail, birthdayDate);
+                StationManager.DataStorage.AddOrUptateIfExists(person);
+                UserListManager.Reload(StationManager.DataStorage.UsersList.ToList());
             }
             catch (PersonPropertyException e)
             {
@@ -128,18 +138,28 @@ namespace RomanProject.ViewModel
             return person;
         }
 
+        private void Cancel(object obj)
+        {
+            Clear();
+            NavigationManager.Instance.Navigate(ViewType.Main);
+        }
 
+        private void Clear()
+        {
+            Name = "";
+            Surname = "";
+            EMail = "";
+            BirthdayDate = default(DateTime);
+        }
 
         private void ParseToFields(Person person)
         {
-            GeneralInfo = person.ToString();
-        }
-
-        private void CheckIfShowBirthdayMessage(Person person)
-        {
-            if (person.IsBirthday)
+            if (person != null)
             {
-                MessageBox.Show("Happy birthday!!!");
+                Name = person.Name;
+                Surname = person.Surname;
+                EMail = person.EMail;
+                BirthdayDate = person.BirthdayDate;
             }
         }
     }

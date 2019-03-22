@@ -14,3 +14,6 @@ C:\Users\Valeriia\Documents\Visual Studio 2015\Projects\CSharpProject3\CSharpPra
 C:\Users\Valeriia\Documents\Visual Studio 2015\Projects\CSharpProject3\CSharpPractice2\RomanProject\obj\Debug\RomanProject.csproj.GenerateResource.Cache
 C:\Users\Valeriia\Documents\Visual Studio 2015\Projects\CSharpProject3\CSharpPractice2\RomanProject\obj\Debug\RomanProject.exe
 C:\Users\Valeriia\Documents\Visual Studio 2015\Projects\CSharpProject3\CSharpPractice2\RomanProject\obj\Debug\RomanProject.pdb
+C:\Users\Valeriia\Documents\Visual Studio 2015\Projects\CSharpProject3\CSharpPractice2\RomanProject\obj\Debug\RomanProject.csprojResolveAssemblyReference.cache
+C:\Users\Valeriia\Documents\Visual Studio 2015\Projects\CSharpProject3\CSharpPractice2\RomanProject\obj\Debug\View\UsersListControl.g.cs
+C:\Users\Valeriia\Documents\Visual Studio 2015\Projects\CSharpProject3\CSharpPractice2\RomanProject\obj\Debug\View\UsersListControl.baml
